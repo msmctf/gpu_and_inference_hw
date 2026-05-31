@@ -106,12 +106,12 @@ if __name__ == "__main__":
 # 1. KV Cache (use_cache=True + past_key_values): Instead of recomputing
 #    attention over the entire growing sequence every step, we cache the key/value
 #    projections and only process the new token during decode. This changes per-step
-#    work from O(seq_len) to O(1) and is by far the biggest win — estimated ~10-20x
+#    work from O(seq_len) to O(1) and is by far the biggest win — contributing ~10-20x
 #    alone on 128 decode steps from a 1024 prompt.
 #
 # 2. FP16 precision (torch.float16): Halves the model's memory footprint and
 #    memory bandwidth requirements. On GPUs with FP16 tensor cores, this also
-#    roughly doubles compute throughput. Estimated ~1.5-2x additional speedup.
+#    roughly doubles compute throughput. Contributes ~1.5-2x additional speedup.
 #
 # 3. Removed .item() synchronisation: The baseline calls next_token_id.item()
 #    every step, which forces a CUDA synchronize and blocks the CPU until the GPU
